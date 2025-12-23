@@ -1,0 +1,7 @@
+{
+  "name": "Kütüphanem (My Library)",
+  "description": "Kişisel kitaplık yönetim uygulaması. Kitaplarınızı barkod veya kapak fotoğrafı ile tarayın, raflara göre organize edin ve Excel olarak dışa aktarın.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

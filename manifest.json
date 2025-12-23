@@ -1,0 +1,20 @@
+{
+  "short_name": "Kütüphanem",
+  "name": "Kütüphanem Kitaplık Yönetimi",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2232/2232688.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2232/2232688.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#261a17",
+  "background_color": "#fdf8f6"
+}
