@@ -5,7 +5,9 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
-    // Sadece API Key'i güvenli bir şekilde string olarak gömüyoruz.
+    // Mobil cihazlarda 'global' değişkeni bazen sorun çıkarır, window'a eşitliyoruz.
+    'global': 'window',
+    // API Key'i güvenli bir şekilde client-side'a gömüyoruz.
     'process.env.API_KEY': JSON.stringify(process.env.API_KEY || '')
   }
 });
