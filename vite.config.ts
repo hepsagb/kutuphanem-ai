@@ -5,8 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
-    // Sadece API Key'i replace ediyoruz. 
-    // Global ve process tanımları index.html içindeki script ile runtime'da hallediliyor.
+    // Sadece API Key'i güvenli bir şekilde string olarak gömüyoruz.
     'process.env.API_KEY': JSON.stringify(process.env.API_KEY || '')
   }
 });
