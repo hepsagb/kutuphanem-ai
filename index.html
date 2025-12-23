@@ -2,34 +2,36 @@
 <html lang="tr">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
     <meta name="theme-color" content="#261a17" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>Kütüphanem</title>
-    <link rel="manifest" href="/manifest.json" />
-    
-    <!-- Yeşil Cüzdan İkonu -->
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2721/2721688.png" />
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2721/2721688.png" />
 
-    <!-- HATA YAKALAYICI -->
+    <!-- Global Error Overlay -->
     <script>
-      window.onerror = function(msg, url, line, col, error) {
-        console.error("Global Error:", msg, url, line, error);
-        // Sadece ciddi yükleme hatalarında kullanıcıya bilgi ver
-        if(document.body && (msg.toLowerCase().includes('import') || msg.toLowerCase().includes('module'))) {
-           var div = document.createElement("div");
-           div.style.cssText = "position:fixed;top:0;left:0;z-index:9999;background:white;color:black;padding:20px;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;";
-           div.innerHTML = "<h2 style='font-size:20px;font-weight:bold;margin-bottom:10px'>Yükleme Sorunu</h2>" + 
-                           "<p>Uygulama yüklenirken bir sorun oluştu. Cihazınızın tarayıcısı güncel olmayabilir.</p>" +
-                           "<p style='color:red;margin-top:10px;font-size:12px'>" + msg + "</p>";
-           document.body.appendChild(div);
-        }
+      window.onerror = function (msg, url, line, col, error) {
+        console.error("Runtime Error:", msg, error);
+        if (document.getElementById("error-overlay")) return;
+
+        const div = document.createElement("div");
+        div.id = "error-overlay";
+        div.style.cssText =
+          "position:fixed;top:0;left:0;width:100%;height:100%;background:white;z-index:9999;padding:20px;color:#b91c1c;overflow:auto;font-family:monospace;";
+        div.innerHTML = `
+          <h3 style="font-size:18px;font-weight:bold;">Uygulama Hatası</h3>
+          <pre style="white-space:pre-wrap;">${msg}\n${error?.stack || ""}</pre>
+          <button onclick="location.reload()"
+            style="margin-top:20px;padding:10px 20px;background:#261a17;color:white;border:none;border-radius:6px;">
+            Yenile
+          </button>
+        `;
+        document.body.appendChild(div);
       };
     </script>
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -37,55 +39,50 @@
           extend: {
             colors: {
               library: {
-                50: '#fdf8f6',
-                100: '#f2e8e5',
-                200: '#eaddd7',
-                300: '#e0cec7',
-                400: '#d2bab0',
-                500: '#a18072',
-                600: '#846358',
-                700: '#43302b',
-                800: '#261a17',
-                900: '#1c1311',
-              }
+                50: "#fdf8f6",
+                100: "#f2e8e5",
+                200: "#eaddd7",
+                300: "#e0cec7",
+                400: "#d2bab0",
+                500: "#a18072",
+                600: "#846358",
+                700: "#43302b",
+                800: "#261a17",
+                900: "#1c1311",
+              },
             },
             fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            }
-          }
-        }
-      }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Polyfills -->
-    <script>
-      window.global = window;
-      window.process = { env: {} };
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
     </script>
 
-    <!-- KRİTİK DÜZELTME: Eski cihazlar (iOS < 16.4) için Import Map Shim -->
-    <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js"></script>
-
-    <script type="importmap">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  <script type="importmap">
 {
   "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
-    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.0/client",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "recharts": "https://aistudiocdn.com/recharts@^2.15.0",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.454.0",
-    "vite": "https://aistudiocdn.com/vite@^5.0.0",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^4.2.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "recharts": "https://esm.sh/recharts@^3.6.0",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "vite": "https://esm.sh/vite@^7.3.0"
   }
 }
 </script>
 </head>
-  <body class="bg-gray-50 text-gray-900 font-sans antialiased overscroll-none selection:bg-library-200">
+
+  <body class="bg-gray-50 text-gray-900 font-sans antialiased">
     <div id="root"></div>
+
+    <!-- Vite Entry (DOĞRU TEK YER) -->
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>
