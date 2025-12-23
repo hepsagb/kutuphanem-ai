@@ -9,22 +9,18 @@
     <title>Kütüphanem</title>
     <link rel="manifest" href="/manifest.json" />
     
-    <!-- HATA YAKALAYICI: Mobil hata ayıklama için -->
+    <!-- HATA YAKALAYICI -->
     <script>
       window.onerror = function(msg, url, line, col, error) {
-        var div = document.createElement("div");
-        div.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; bg-gray-50; color:#991b1b; z-index:9999; overflow:auto; padding:20px; font-family:monospace; font-size:14px; background-color: rgba(254, 242, 242, 0.95); border: 2px solid red;";
-        div.innerHTML = "<h3 style='font-weight:bold; font-size:18px; margin-bottom:10px;'>HATA TESPİT EDİLDİ</h3>" + 
-                        "<p><strong>Mesaj:</strong> " + msg + "</p>" + 
-                        "<p><strong>Konum:</strong> " + url + ":" + line + "</p>" + 
-                        "<pre style='margin-top:10px; background:#fff; padding:10px; border-radius:5px; border:1px solid #ccc; overflow-x:scroll;'>" + (error ? error.stack : "Detay yok") + "</pre>" +
-                        "<button onclick='this.parentElement.remove()' style='margin-top:20px; padding:10px 20px; background:#333; color:white; border:none; border-radius:5px;'>Kapat</button>";
-        document.body.appendChild(div);
-        return false;
+        console.error("Global Error:", msg, url, line, error);
+        // Hata durumunda ekrana da basalım ki siyah ekranın sebebi anlaşılsın
+        if(document.body) {
+           var div = document.createElement("div");
+           div.style.cssText = "position:fixed;top:0;left:0;z-index:9999;background:white;color:red;padding:20px;width:100%;border-bottom:2px solid red;";
+           div.innerHTML = "<strong>Hata Oluştu:</strong> " + msg + "<br><small>" + url + ":" + line + "</small>";
+           document.body.appendChild(div);
+        }
       };
-      window.addEventListener("unhandledrejection", function(event) {
-        window.onerror("Unhandled Promise Rejection: " + event.reason, "", 0, 0, event.reason);
-      });
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -57,18 +53,19 @@
       window.process = { env: {} };
     </script>
 
-    <!-- IMPORTMAP: Çalışan örnekteki CDN kullanıldı -->
+    <!-- IMPORTMAP: Sadece aistudiocdn kullanacak şekilde temizlendi -->
     <script type="importmap">
     {
       "imports": {
         "react": "https://aistudiocdn.com/react@^19.2.0",
-        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
         "react/": "https://aistudiocdn.com/react@^19.2.0/",
+        "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
         "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-        "recharts": "https://aistudiocdn.com/recharts@^2.13.0",
-        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
-        "vite": "https://aistudiocdn.com/vite@^7.2.4",
-        "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+        "recharts": "https://aistudiocdn.com/recharts@^2.15.0",
+        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.454.0",
+        "vite": "https://aistudiocdn.com/vite@^5.0.0",
+        "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^4.2.0"
       }
     }
     </script>
