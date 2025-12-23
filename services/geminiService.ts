@@ -1,15 +1,25 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { Book } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Helper to get the AI client lazily.
+// This prevents the app from crashing on startup if the API key is missing.
+const getAIClient = () => {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    console.error("API_KEY is missing. Please check your Vercel Environment Variables.");
+    throw new Error("API Anahtarı bulunamadı. Lütfen sistem yöneticisiyle iletişime geçin.");
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 /**
  * Uses Gemini to identify a book from an image (ISBN or Cover).
  */
 export const scanBookImage = async (base64Image: string): Promise<{ isbn: string; title: string; author: string } | null> => {
   try {
+    const ai = getAIClient();
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash-latest",
+      model: "gemini-2.0-flash", // Use the robust 2.0 Flash model for vision tasks
       contents: [
         {
           inlineData: {
@@ -49,8 +59,9 @@ export const scanBookImage = async (base64Image: string): Promise<{ isbn: string
  */
 export const fetchBookDetails = async (query: string): Promise<Partial<Book> | null> => {
   try {
+    const ai = getAIClient();
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview", // Good for reasoning/knowledge retrieval
+      model: "gemini-2.0-flash",
       contents: `Find detailed metadata for the book matching this query: "${query}". 
       If it is an ISBN, look it up. If it is a title, find the best match.
       Return the data in Turkish language (Türkçe).
