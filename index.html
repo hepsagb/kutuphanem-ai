@@ -31,6 +31,11 @@
         }
       }
     </script>
+    <!-- Mobile Polyfills: Bu script mobil cihazlarda "process is not defined" hatasını önler -->
+    <script>
+      window.global = window;
+      window.process = { env: {} };
+    </script>
 <script type="importmap">
 {
   "imports": {

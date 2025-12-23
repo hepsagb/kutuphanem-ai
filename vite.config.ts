@@ -5,9 +5,12 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
-    // Vercel'deki Environment Variable'ı koda gömer
-    'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
-    // Bazı kütüphanelerin "process is not defined" hatası vermesini önler
+    // Mobilde hatayı önlemek için 'global' değişkenini window'a eşitliyoruz
+    global: 'window',
+    // Vercel Environment Variable'ı güvenli bir şekilde string olarak koda gömüyoruz
+    // Eğer API_KEY yoksa boş string döner, undefined hatası vermez
+    'process.env.API_KEY': JSON.stringify(process.env.API_KEY || ''),
+    // Process nesnesini boş bir obje olarak tanımlıyoruz
     'process.env': {} 
   }
 });
